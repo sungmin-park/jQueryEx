@@ -1,10 +1,17 @@
 $ = jQuery
 
+
 if window.ko
 	ko.bindingHandlers.youtube = 
 		update: (element, valueAccessor) ->
 			id = ko.utils.unwrapObservable valueAccessor()
 			$(element).youtube id: id
+
+	ko.bindingHandlers.facebook_like =
+		update: (element, valueAccessor) ->
+			fb = ko.utils.unwrapObservable valueAccessor()
+			$(element).facebook_like fb
+
 
 class $.YouTube
 	_page: "https://www.youtube.com"
@@ -14,10 +21,27 @@ class $.YouTube
 		@thumbnail = "https://img.youtube.com/vi/#{@id}/0.jpg"
 		@embed = "#{@_page}/embed/#{@id}"
 
+
 $.fn.youtube = ({id}) ->
 	yt = new $.YouTube id
 	@empty().append $('<iframe>')
 		.attr('src', yt.embed).css('width', '100%').css('height', '100%')
+
+
+$.fn.facebook_like = ({href, show_faces, send}) ->
+	send ?= false
+	show_faces ?= false
+	@each ->
+		$(@).empty().append(
+			$('<div>')
+				.addClass('fb-like')
+				.attr('data-show-faces', show_faces)
+				.attr('data-send', send)
+				.attr('data-href', href)
+		)
+		# XFBML.parse recive parent dom object, not itself.
+		window.FB?.XFBML.parse @
+
 
 $.fn.formify = ->
   @click ->
