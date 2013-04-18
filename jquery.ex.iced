@@ -3,7 +3,7 @@ $.fn.formify = ->
     data = $(@).data()
     if data.confirm
       if not confirm data.confirm
-        return
+        return no
     form = $('<form>').attr('method', 'post').attr('action', @href)
     form.submit()
     # prevent to handle click event

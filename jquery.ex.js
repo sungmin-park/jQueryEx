@@ -48,7 +48,7 @@
     return this.click(function() {
       var data, form;
       data = $(this).data();
-      if (data.confirm) if (!confirm(data.confirm)) return;
+      if (data.confirm) if (!confirm(data.confirm)) return false;
       form = $('<form>').attr('method', 'post').attr('action', this.href);
       form.submit();
       return false;
