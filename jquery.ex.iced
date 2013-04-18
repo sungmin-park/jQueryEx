@@ -6,6 +6,8 @@ $.fn.formify = ->
         return
     form = $('<form>').attr('method', 'post').attr('action', @href)
     form.submit()
+    # prevent to handle click event
+    return no
 
 await $ defer()
 

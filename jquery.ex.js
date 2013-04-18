@@ -50,7 +50,8 @@
       data = $(this).data();
       if (data.confirm) if (!confirm(data.confirm)) return;
       form = $('<form>').attr('method', 'post').attr('action', this.href);
-      return form.submit();
+      form.submit();
+      return false;
     });
   };
 
@@ -59,7 +60,7 @@
       filename: "jquery.ex.iced"
     });
     $(__iced_deferrals.defer({
-      lineno: 9
+      lineno: 11
     }));
     __iced_deferrals._fulfill();
   })(function() {
