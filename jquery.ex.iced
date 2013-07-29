@@ -54,6 +54,21 @@ $.fn.formify = ->
     # prevent to handle click event
     return no
 
+
+$.fn.confirmify = ->
+  handler = ->
+    if confirm $(@).data().confirm
+      return yes
+    return no
+  @each ->
+    if $(@).is 'form'
+      $(@).submit handler
+    else
+      $(@).click handler
+
 await $ defer()
 
 $('.formify').formify()
+$('.confirmify').confirmify()
+$('.fb-share').popupWindow width: 626, height: 346, centerBrowser: 1
+$('.focused').select()
