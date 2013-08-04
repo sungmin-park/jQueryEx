@@ -70,5 +70,5 @@ await $ defer()
 
 $('.formify').formify()
 $('.confirmify').confirmify()
-$('.fb-share').popupWindow width: 626, height: 346, centerBrowser: 1
+$('.fb-share').popupWindow? width: 626, height: 346, centerBrowser: 1
 $('.focused').select()

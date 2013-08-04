@@ -136,13 +136,16 @@
     }));
     __iced_deferrals._fulfill();
   })(function() {
+    var _base;
     $('.formify').formify();
     $('.confirmify').confirmify();
-    $('.fb-share').popupWindow({
-      width: 626,
-      height: 346,
-      centerBrowser: 1
-    });
+    if (typeof (_base = $('.fb-share')).popupWindow === "function") {
+      _base.popupWindow({
+        width: 626,
+        height: 346,
+        centerBrowser: 1
+      });
+    }
     return $('.focused').select();
   });
 
