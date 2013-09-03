@@ -101,6 +101,13 @@
     });
   };
 
+  $.fn.replacer = function() {
+    return this.click(function(event) {
+      location.replace($(this).attr('href'));
+      return false;
+    });
+  };
+
   $(function() {
     var _base;
 
@@ -113,7 +120,8 @@
         centerBrowser: 1
       });
     }
-    return $('.focused').select();
+    $('.focused').select();
+    return $('.replacer').replacer();
   });
 
 }).call(this);

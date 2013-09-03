@@ -66,8 +66,15 @@ $.fn.confirmify = ->
     else
       $(@).click handler
 
+
+$.fn.replacer = ->
+  @.click (event) ->
+    location.replace $(@).attr 'href'
+    no
+
 $ ->
   $('.formify').formify()
   $('.confirmify').confirmify()
   $('.fb-share').popupWindow? width: 626, height: 346, centerBrowser: 1
   $('.focused').select()
+  $('.replacer').replacer()
