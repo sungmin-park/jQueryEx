@@ -72,6 +72,14 @@ $.fn.replacer = ->
     location.replace $(@).attr 'href'
     no
 
+
+$.Event.ArrowKeys = ArrowKeys = [
+  $.Event.LEFT, $.Event.UP, $.Event.RIGHT, $.Event.DOWN
+] = [37..40]
+
+$.Event::isArrowKey = ->
+  @which in ArrowKeys
+
 $ ->
   $('.formify').formify()
   $('.confirmify').confirmify()
