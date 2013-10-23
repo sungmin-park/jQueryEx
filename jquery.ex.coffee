@@ -40,14 +40,14 @@ $.fn.facebook_like = ({href, show_faces, send}) ->
 				.attr('data-href', href)
 		)
 		# XFBML.parse recive parent dom object, not itself.
-		window.FB?.XFBML.parse @
+		window['FB']?['XFBML'].parse @
 
 
 $.fn.formify = ->
   @click ->
     data = $(@).data()
-    if data.confirm
-      if not confirm data.confirm
+    if data['confirm']
+      if not confirm data['confirm']
         return no
     form = $('<form>').attr('method', 'post').attr('action', @href)
     form.submit()
@@ -57,7 +57,7 @@ $.fn.formify = ->
 
 $.fn.confirmify = ->
   handler = ->
-    if confirm $(@).data().confirm
+    if confirm $(@).data()['confirm']
       return yes
     return no
   @each ->
@@ -67,22 +67,30 @@ $.fn.confirmify = ->
       $(@).click handler
 
 
+$.fn.anchorify = ->
+  @css 'cursor', 'pointer'
+  @each ->
+    $(@).click ->
+      window.location = $(@).data 'href'
+      no
+
 $.fn.replacer = ->
-  @.click (event) ->
+  @click ->
     location.replace $(@).attr 'href'
     no
 
 
-$.Event.ArrowKeys = ArrowKeys = [
+$.Event.ArrowKeys = [
   $.Event.LEFT, $.Event.UP, $.Event.RIGHT, $.Event.DOWN
 ] = [37..40]
 
 $.Event::isArrowKey = ->
-  @which in ArrowKeys
+  @which in $.Event.ArrowKeys
 
 $ ->
   $('.formify').formify()
   $('.confirmify').confirmify()
+  $('.anchorify').anchorify()
   $('.fb-share').popupWindow? width: 626, height: 346, centerBrowser: 1
   $('.focused').select()
   $('.replacer').replacer()
