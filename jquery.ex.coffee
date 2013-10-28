@@ -80,6 +80,51 @@ $.Event.ArrowKeys = ArrowKeys = [
 $.Event::isArrowKey = ->
   @which in ArrowKeys
 
+$.Event::toChar = ->
+  String.fromCharCode @which
+
+
+class AjaxError extends Error
+  constructor: (@xhr)->
+    @message = @xhr.responseText
+
+
+$.fn.post = (cb) ->
+  $.ajax @attr('action'), {
+    type: 'POST'
+    processData: false,
+    contentType: false,
+    data: new FormData @[0]
+    dataType: 'JSON'
+    success: (data) ->
+      cb null, data
+    error: (xhr, status, error) ->
+      cb new AjaxError xhr
+  }
+  @
+
+$.image = (source, cb) ->
+  img = new Image
+  img.onload = ->
+    cb null, img
+    img.onerror = img.onload = null
+  img.onerror = (error) ->
+    img.onerror = img.onload = null
+    cb error
+  img.src = source
+
+
+# streamlinjs
+
+$.getJSON_ = ({url, data}, callback) ->
+  $.ajax url, {
+    type: 'GET', dataType: 'JSON', data: _.extend {_ts: $.now()}, data
+    success: (data) ->
+      callback null, data
+    error: (xhr, status, error) ->
+      callback new AjaxError xhr
+  }
+
 $ ->
   $('.formify').formify()
   $('.confirmify').confirmify()
