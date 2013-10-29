@@ -70,7 +70,10 @@ $.fn.confirmify = ->
 $.fn.anchorify = ->
   @css 'cursor', 'pointer'
   @each ->
-    $(@).click ->
+    $(@).click (evt) ->
+      # 만약 앵커가 클릭되면 그냥 무시한다.
+      if $(evt.target).is 'a'
+        return yes
       window.location = $(@).data 'href'
       no
 
@@ -86,51 +89,6 @@ $.Event.ArrowKeys = [
 
 $.Event::isArrowKey = ->
   @which in $.Event.ArrowKeys
-
-$.Event::toChar = ->
-  String.fromCharCode @which
-
-
-class AjaxError extends Error
-  constructor: (@xhr)->
-    @message = @xhr.responseText
-
-
-$.fn.post = (cb) ->
-  $.ajax @attr('action'), {
-    type: 'POST'
-    processData: false,
-    contentType: false,
-    data: new FormData @[0]
-    dataType: 'JSON'
-    success: (data) ->
-      cb null, data
-    error: (xhr, status, error) ->
-      cb new AjaxError xhr
-  }
-  @
-
-$.image = (source, cb) ->
-  img = new Image
-  img.onload = ->
-    cb null, img
-    img.onerror = img.onload = null
-  img.onerror = (error) ->
-    img.onerror = img.onload = null
-    cb error
-  img.src = source
-
-
-# streamlinjs
-
-$.getJSON_ = ({url, data}, callback) ->
-  $.ajax url, {
-    type: 'GET', dataType: 'JSON', data: _.extend {_ts: $.now()}, data
-    success: (data) ->
-      callback null, data
-    error: (xhr, status, error) ->
-      callback new AjaxError xhr
-  }
 
 $ ->
   $('.formify').formify()
